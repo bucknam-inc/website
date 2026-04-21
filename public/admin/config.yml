@@ -1,0 +1,97 @@
+# Decap CMS configuration for bucknam-inc.com.
+#
+# NOTE: `repo` below is a placeholder. Update once the GitHub repo is created
+# (suggested: Aaron-CivicSolutions/bucknam-website or bucknam-inc/website).
+# Decap uses GitHub OAuth — the editor signs in with their own GitHub account
+# in the browser, no password is ever handled by the site.
+
+backend:
+  name: github
+  repo: bucknam-inc/website
+  branch: main
+  # For local dev: run `npx decap-server` in another terminal and uncomment:
+  # local_backend: true
+
+media_folder: "public/images"
+public_folder: "/images"
+
+site_url: https://bucknam-inc.com
+display_url: https://bucknam-inc.com
+logo_url: /Logo_street_35px.png
+
+collections:
+  - name: "pages"
+    label: "Pages"
+    folder: "src/content/pages"
+    create: false          # fixed set of pages, no new ones from the CMS
+    slug: "{{slug}}"
+    extension: "md"
+    fields:
+      - { label: "Title",       name: "title", widget: "string" }
+      - { label: "URL slug",    name: "slug",  widget: "string" }
+      - { label: "Body",        name: "body",  widget: "markdown" }
+
+  - name: "blog"
+    label: "Blog"
+    folder: "src/content/blog"
+    create: true
+    slug: "{{slug}}"
+    extension: "md"
+    fields:
+      - { label: "Title",        name: "title",       widget: "string" }
+      - { label: "URL slug",     name: "slug",        widget: "string" }
+      - { label: "Author",       name: "author",      widget: "string", default: "Bucknam Infrastructure" }
+      - { label: "Publish date", name: "publishDate", widget: "datetime", required: false }
+      - { label: "Body",         name: "body",        widget: "markdown" }
+
+  - name: "jobs"
+    label: "Jobs"
+    folder: "src/content/jobs"
+    create: true
+    slug: "{{slug}}"
+    extension: "md"
+    fields:
+      - { label: "Position title",         name: "title",                widget: "string" }
+      - { label: "URL slug",               name: "slug",                 widget: "string" }
+      - { label: "Open for applications?", name: "openForApplications", widget: "boolean", default: true }
+      - { label: "Description",            name: "body",                widget: "markdown" }
+
+  - name: "cities"
+    label: "Service area — cities"
+    label_singular: "City"
+    folder: "src/content/cities"
+    create: true
+    slug: "{{slug}}"
+    extension: "json"
+    format: "json"
+    identifier_field: "name"
+    summary: "{{name}} ({{county}}) — customer: {{isCustomer}}, surveys: {{surveyYears}}"
+    fields:
+      - { label: "City / place name", name: "name",        widget: "string", hint: "Must exactly match the name in the US Census TIGER places dataset, e.g. 'Laguna Hills'." }
+      - { label: "State",             name: "state",       widget: "hidden",  default: "CA" }
+      - label: "County"
+        name: "county"
+        widget: "select"
+        options: ["Los Angeles", "Orange", "San Bernardino", "Riverside", "San Diego"]
+      - { label: "Place GEOID",       name: "placeGeoId",  widget: "string", required: false, hint: "7-digit Census TIGER GEOID. Optional — if blank, the map joins by name." }
+      - { label: "Is current customer (BLUE on map)", name: "isCustomer", widget: "boolean", default: false }
+      - label: "Surveying fiscal years (GREEN on map when current)"
+        name: "surveyYears"
+        widget: "list"
+        default: []
+        field:
+          label: "Fiscal year"
+          name: "year"
+          widget: "number"
+          value_type: "int"
+          min: 2020
+          max: 2050
+          hint: "e.g. 2026 = FY26 = Jul 2025 – Jun 2026"
+      - label: "Custom boundary (optional)"
+        name: "customGeoJson"
+        widget: "object"
+        required: false
+        collapsed: true
+        hint: "For HOAs or special districts NOT in the TIGER cities dataset. Paste a GeoJSON Feature or FeatureCollection."
+        fields:
+          - { label: "GeoJSON (paste)", name: "geojson", widget: "text", required: false }

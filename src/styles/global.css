@@ -1,0 +1,130 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html { scroll-behavior: smooth; }
+  body {
+    @apply bg-white text-gray-800 font-sans antialiased;
+  }
+  h1, h2, h3, h4 { @apply font-heading tracking-wide; }
+  h1 { @apply text-4xl md:text-5xl font-bold; }
+  h2 { @apply text-3xl md:text-4xl font-semibold; }
+  h3 { @apply text-2xl md:text-3xl font-semibold; }
+  a { @apply text-brand-yellow hover:underline; }
+}
+
+@layer components {
+  .btn {
+    @apply inline-block px-6 py-3 font-semibold uppercase tracking-wider transition;
+  }
+  .btn-primary {
+    @apply btn bg-brand-yellow text-brand-dark hover:bg-yellow-500;
+  }
+  .btn-outline {
+    @apply btn border-2 border-brand-yellow text-brand-yellow hover:bg-brand-yellow hover:text-brand-dark;
+  }
+  .container-prose {
+    @apply max-w-4xl mx-auto px-4 py-12;
+  }
+  .prose-content {
+    @apply prose prose-lg max-w-none;
+  }
+  .prose-content h2 {
+    @apply text-brand-dark mt-8 mb-4;
+  }
+  .prose-content a {
+    @apply text-yellow-600 underline;
+  }
+  .prose-content ul {
+    @apply list-disc pl-6;
+  }
+  .prose-content img {
+    @apply rounded shadow-md my-6;
+  }
+}
+
+/* Custom prose rules layered on top of @tailwindcss/typography. */
+.page-prose {
+  @apply prose prose-lg max-w-none text-gray-700;
+}
+.page-prose h2 {
+  @apply font-heading text-brand-dark mt-10 mb-4 pb-2 border-b-4 border-brand-yellow inline-block;
+}
+.page-prose h3 {
+  @apply font-heading text-brand-dark mt-8 mb-3;
+}
+.page-prose a {
+  @apply text-yellow-700 font-semibold no-underline border-b-2 border-brand-yellow hover:bg-yellow-50;
+}
+.page-prose ul {
+  @apply list-none pl-0 space-y-2;
+}
+.page-prose ul > li {
+  @apply relative pl-7;
+}
+.page-prose ul > li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.65em;
+  width: 0.9rem;
+  height: 0.2rem;
+  background: theme('colors.brand.yellow');
+  border-radius: 2px;
+}
+.page-prose img {
+  @apply rounded-lg shadow-md my-8 w-full h-auto;
+}
+.page-prose blockquote {
+  @apply border-l-4 border-brand-yellow bg-yellow-50 text-gray-800 not-italic py-3 px-6 my-8 rounded-r;
+}
+.page-prose strong {
+  @apply text-brand-dark;
+}
+/* Responsive multi-column list — apply `.columns-list` to a <ul> to flow items
+ * across 1/2/3/4 columns depending on viewport width. Items don't break across
+ * columns. */
+.page-prose ul.columns-list {
+  @apply list-none pl-0 my-6;
+  column-count: 1;
+  column-gap: 2.5rem;
+}
+@media (min-width: 640px)  { .page-prose ul.columns-list { column-count: 2; } }
+@media (min-width: 768px)  { .page-prose ul.columns-list { column-count: 3; } }
+@media (min-width: 1024px) { .page-prose ul.columns-list { column-count: 4; } }
+.page-prose ul.columns-list > li {
+  break-inside: avoid;
+  page-break-inside: avoid;
+  @apply pl-6 py-1;
+}
+/* Feature grid — responsive card layout for product/feature pages. */
+.page-prose .feature-grid {
+  @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 my-10;
+}
+.page-prose .feature-card {
+  @apply bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition p-6;
+}
+.page-prose .feature-card .feature-icon {
+  @apply text-brand-yellow w-10 h-10 mb-3;
+}
+.page-prose .feature-card h3 {
+  @apply font-heading text-brand-dark text-lg font-semibold mt-0 mb-2;
+}
+.page-prose .feature-card p {
+  @apply text-gray-600 text-base leading-relaxed m-0;
+}
+/* Subtle grid overlay used on hero sections that don't have a photo. */
+.hero-grid::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(255, 193, 7, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 193, 7, 0.08) 1px, transparent 1px);
+  background-size: 48px 48px;
+  opacity: 0.6;
+  mask-image: radial-gradient(ellipse at center, black 40%, transparent 80%);
+  -webkit-mask-image: radial-gradient(ellipse at center, black 40%, transparent 80%);
+}

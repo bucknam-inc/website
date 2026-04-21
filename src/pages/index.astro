@@ -1,0 +1,119 @@
+---
+import Base from '../layouts/Base.astro';
+import PCIChart from '../components/PCIChart.astro';
+
+const pciCities = [
+  'Fountain Valley',
+  'Huntington Beach',
+  'Ontario',
+  'Orange',
+  'San Juan Capistrano',
+];
+
+const pciBands = [
+  { label: 'Very Poor', range: '0–40',   fill: '#ef4444' },
+  { label: 'Poor',      range: '41–59',  fill: '#f97316' },
+  { label: 'Fair',      range: '60–74',  fill: '#facc15' },
+  { label: 'Good',      range: '75–85',  fill: '#22c55e' },
+  { label: 'Very Good', range: '86–100', fill: '#3b82f6' },
+];
+
+const services = [
+  { title: 'Pavement Management', desc: 'ASTM D6433 / D5340 inspection, ArcGIS integration, CIP planning.', href: '/pavement-management/' },
+  { title: 'GIS Services', desc: 'Enterprise GIS implementation, web mapping, data management.', href: '/gis-services/' },
+  { title: 'ROW Inventory', desc: 'Right-of-way imaging and asset inventory across your entire network.', href: '/row-inventory/' },
+  { title: 'GIS As-Needed', desc: 'On-demand GIS support for municipalities and private agencies.', href: '/gis-as-needed/' },
+];
+
+const clientLogos = [
+  'Duarte150_0.png', 'Lomita.png', 'Lynwood.png', 'CulverCity_0.png',
+  'Rialto.png', 'PalmSprings_0.jpg', 'Vista.png', 'Redlands.jpg',
+  'SantaAna.jpg', 'LakeElsinore.png', 'FountainValley.png',
+  'RanchoPalosVerde.jpg', 'Menifee.png', 'Ontario.png', 'Irvine.png',
+  'Orange.png', 'MontereyPark.jpg', 'Westminster_0.png',
+];
+---
+<Base title="Home">
+  <!-- Hero -->
+  <section class="relative bg-brand-dark text-white">
+    <div class="absolute inset-0 bg-gradient-to-r from-black/80 to-black/40 z-10"></div>
+    <div class="absolute inset-0 bg-[url('/images/Screen1.jpg')] bg-cover bg-center opacity-40"></div>
+    <div class="relative z-20 max-w-6xl mx-auto px-4 py-28 md:py-36">
+      <p class="text-brand-yellow font-heading uppercase tracking-widest mb-3">Welcome to</p>
+      <h1 class="text-white mb-6">BUCKNAM <span class="text-brand-yellow">INFRASTRUCTURE</span></h1>
+      <p class="text-lg md:text-xl max-w-2xl text-gray-200 mb-8">
+        We provide municipalities and private organizations in Southern California expertise in
+        pavement inspections and GIS management through innovative solutions and seasoned partnership.
+      </p>
+      <div class="flex flex-wrap gap-4">
+        <a href="/service-map/" class="btn-primary no-underline">Service Area</a>
+        <a href="/contact/" class="btn-outline no-underline">Request a Proposal</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services -->
+  <section id="services" class="max-w-6xl mx-auto px-4 py-20">
+    <h2 class="text-center text-brand-dark mb-4">Our <span class="text-brand-yellow">Services</span></h2>
+    <p class="text-center text-gray-600 mb-12 max-w-2xl mx-auto">Twenty-five years of experience serving Southern California cities, counties, and private agencies.</p>
+    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+      {services.map((s) => (
+        <a href={s.href} class="block bg-white border-t-4 border-brand-yellow rounded shadow hover:shadow-lg p-6 no-underline text-gray-800 transition">
+          <h3 class="text-xl font-heading font-semibold text-brand-dark mb-2">{s.title}</h3>
+          <p class="text-sm text-gray-600">{s.desc}</p>
+          <span class="text-brand-yellow text-sm font-semibold mt-3 inline-block">Learn more →</span>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <!-- PCI history -->
+  <section id="pci-history" class="bg-gray-50 py-20 border-t border-gray-200">
+    <div class="max-w-5xl mx-auto px-4">
+      <h2 class="text-center text-brand-dark mb-4">Long-Term <span class="text-brand-yellow">Results</span></h2>
+      <p class="text-center text-gray-600 mb-8 max-w-2xl mx-auto">
+        Weighted-average Pavement Condition Index for cities we've surveyed for over a decade.
+        Each point is one survey, weighted by section area. Alleys and parking lots excluded.
+      </p>
+      <div class="flex flex-wrap justify-center gap-x-5 gap-y-2 mb-10 text-xs text-gray-600">
+        {pciBands.map((b) => (
+          <span class="inline-flex items-center gap-1.5">
+            <span class="inline-block w-3 h-3 rounded-sm" style={`background:${b.fill}`}></span>
+            <span class="font-semibold text-brand-dark">{b.label}</span>
+            <span class="tabular-nums">{b.range}</span>
+          </span>
+        ))}
+      </div>
+      <div class="flex flex-col gap-6">
+        {pciCities.map((city) => <PCIChart city={city} />)}
+      </div>
+    </div>
+  </section>
+
+  <!-- Clients -->
+  <section class="bg-gray-100 py-16">
+    <div class="max-w-6xl mx-auto px-4">
+      <h2 class="text-center text-brand-dark mb-4">Trusted by <span class="text-brand-yellow">Southern California</span></h2>
+      <p class="text-center text-gray-600 mb-10">A selection of the cities and agencies we've partnered with.</p>
+      <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-6 items-center">
+        {clientLogos.map((logo) => (
+          <div class="flex items-center justify-center bg-white rounded shadow-sm p-1 aspect-square">
+            <img src={`/images/${logo}`} alt="Client" class="max-h-full w-auto" loading="lazy" />
+          </div>
+        ))}
+      </div>
+      <div class="text-center mt-10">
+        <a href="/service-map/" class="btn-primary no-underline">View Service Map</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section id="contact" class="bg-brand-dark text-white py-16 text-center">
+    <div class="max-w-3xl mx-auto px-4">
+      <h2 class="text-white mb-4">Ready to start your project?</h2>
+      <p class="text-gray-300 mb-8">Let's talk about your pavement, GIS or infrastructure needs.</p>
+      <a href="/contact/" class="btn-primary no-underline">Get in Touch</a>
+    </div>
+  </section>
+</Base>

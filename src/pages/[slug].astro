@@ -1,0 +1,133 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../layouts/Base.astro';
+
+export async function getStaticPaths() {
+  const pages = await getCollection('pages');
+  return pages
+    .filter((p) => p.data.slug !== 'home' && p.data.slug !== 'contact' && p.data.slug !== 'address-lookup')
+    .map((page) => ({
+      params: { slug: page.data.slug },
+      props: { page },
+    }));
+}
+
+const { page } = Astro.props;
+const { Content } = await render(page);
+
+// Per-page hero images + kicker + related services
+const META: Record<string, {
+  hero: string;
+  kicker: string;
+  highlights: { label: string; value: string }[];
+}> = {
+  'about-us': {
+    hero: '/images/sunset.jpg',
+    kicker: 'About the Firm',
+    highlights: [
+      { label: 'Years experience', value: '25+' },
+      { label: 'Projects delivered', value: '300+' },
+      { label: 'Pavement miles surveyed', value: '65,500+' },
+    ],
+  },
+  'pavement-management': {
+    hero: '/images/PMP_Sample.jpg',
+    kicker: 'Services',
+    highlights: [
+      { label: 'PMP projects managed', value: '240+' },
+      { label: 'Inspection standards', value: 'ASTM D6433 / D5340' },
+      { label: 'Software supported', value: 'MicroPAVER · StreetSaver · CarteGraph' },
+    ],
+  },
+  'gis-services': {
+    hero: '/images/ArcGISOnline.jpg',
+    kicker: 'Services',
+    highlights: [
+      { label: 'GIS experience', value: '19+ years' },
+      { label: 'Platform', value: 'ArcGIS Enterprise & Online' },
+      { label: 'Approach', value: 'Phased implementation' },
+    ],
+  },
+  'row-inventory': {
+    hero: '/images/PMP_Sample.jpg',
+    kicker: 'Services',
+    highlights: [
+      { label: 'Data capture', value: 'Digital roadway imaging' },
+      { label: 'Assets inventoried', value: 'Signs · striping · curb · ADA' },
+      { label: 'Delivery', value: 'GIS-ready inventory' },
+    ],
+  },
+  'gis-as-needed': {
+    hero: '/images/ArcGISOnline.jpg',
+    kicker: 'Services',
+    highlights: [
+      { label: 'Engagement model', value: 'On-demand task orders' },
+      { label: 'Typical uses', value: 'Asset surveys · audits · analysis' },
+      { label: 'Turnaround', value: 'Days, not months' },
+    ],
+  },
+  'myroads-application': {
+    hero: '',
+    kicker: 'Product',
+    highlights: [
+      { label: 'What it is', value: 'Web-based PMP mapping' },
+      { label: 'Who it\'s for', value: 'Public works professionals' },
+      { label: 'Output', value: 'Preliminary cost estimates, fast' },
+    ],
+  },
+};
+
+const meta = META[page.data.slug] ?? {
+  hero: '/images/PMP_Sample.jpg',
+  kicker: 'Services',
+  highlights: [],
+};
+---
+<Base title={page.data.title}>
+  <!-- Hero -->
+  <section class="relative bg-brand-dark text-white overflow-hidden hero-grid">
+    {meta.hero ? (
+      <>
+        <div class="absolute inset-0 bg-gradient-to-br from-black/90 via-black/70 to-black/40"></div>
+        <div class="absolute inset-0 bg-cover bg-center opacity-35" style={`background-image: url('${meta.hero}')`}></div>
+      </>
+    ) : (
+      <div class="absolute inset-0 bg-gradient-to-br from-black via-gray-900 to-gray-800"></div>
+    )}
+    <div class="relative z-10 max-w-6xl mx-auto px-4 py-20 md:py-28">
+      <p class="text-brand-yellow uppercase tracking-widest text-sm font-bold mb-3">{meta.kicker}</p>
+      <h1 class="text-white max-w-3xl">{page.data.title}</h1>
+      {meta.highlights.length > 0 && (
+        <div class="mt-10 grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl">
+          {meta.highlights.map((h) => (
+            <div class="border-l-4 border-brand-yellow bg-black/40 backdrop-blur px-4 py-3 rounded-r">
+              <div class="text-xs uppercase tracking-wider text-gray-400 font-semibold">{h.label}</div>
+              <div class="text-white font-heading text-lg md:text-xl leading-tight mt-1">{h.value}</div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  </section>
+
+  <!-- Content -->
+  <article class="max-w-4xl mx-auto px-4 py-16">
+    <div class="page-prose">
+      <Content />
+    </div>
+  </article>
+
+  <!-- Related / CTA -->
+  <section class="bg-gradient-to-br from-brand-dark to-gray-900 text-white py-16 mt-8">
+    <div class="max-w-5xl mx-auto px-4 grid md:grid-cols-3 gap-8 items-center">
+      <div class="md:col-span-2">
+        <p class="text-brand-yellow uppercase tracking-widest text-sm font-bold mb-2">Next step</p>
+        <h2 class="text-white mb-2">Let's talk about your {page.data.title.toLowerCase()} project.</h2>
+        <p class="text-gray-300">We'll respond within one business day with next steps or a scoping call.</p>
+      </div>
+      <div class="text-left md:text-right">
+        <a href="/contact/" class="btn-primary no-underline">Request a Proposal</a>
+      </div>
+    </div>
+  </section>
+</Base>

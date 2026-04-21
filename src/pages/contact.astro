@@ -1,0 +1,51 @@
+---
+import Base from '../layouts/Base.astro';
+
+// Contact form posts to our own Lambda+SES endpoint (deployed in Session B).
+// In dev / before deploy, submissions will 404 — that's expected.
+const CONTACT_ENDPOINT = '/api/contact';
+---
+<Base title="Contact">
+  <div class="bg-brand-dark text-white py-16">
+    <div class="max-w-4xl mx-auto px-4">
+      <h1 class="text-white">Contact</h1>
+      <p class="text-gray-300 mt-2">Tell us about your project or your interest in joining the team.</p>
+    </div>
+  </div>
+  <section class="max-w-3xl mx-auto px-4 py-12">
+    <form action={CONTACT_ENDPOINT} method="POST" class="space-y-6">
+      <div>
+        <label class="block text-sm font-semibold text-gray-700 mb-1">Name *</label>
+        <input type="text" name="name" required class="w-full border border-gray-300 rounded px-4 py-2 focus:ring-2 focus:ring-brand-yellow" />
+      </div>
+      <div>
+        <label class="block text-sm font-semibold text-gray-700 mb-1">Email *</label>
+        <input type="email" name="email" required class="w-full border border-gray-300 rounded px-4 py-2 focus:ring-2 focus:ring-brand-yellow" />
+      </div>
+      <div>
+        <label class="block text-sm font-semibold text-gray-700 mb-1">Hometown</label>
+        <input type="text" name="hometown" class="w-full border border-gray-300 rounded px-4 py-2 focus:ring-2 focus:ring-brand-yellow" />
+      </div>
+      <div>
+        <label class="block text-sm font-semibold text-gray-700 mb-1">I am contacting you regarding *</label>
+        <select name="reason" required class="w-full border border-gray-300 rounded px-4 py-2 bg-white">
+          <option value="">-- Select one --</option>
+          <option>Pavement management proposal</option>
+          <option>GIS services proposal</option>
+          <option>ROW inventory</option>
+          <option>MyRoads app / demo</option>
+          <option>Address lookup tool</option>
+          <option>Job application</option>
+          <option>General inquiry</option>
+        </select>
+      </div>
+      <div>
+        <label class="block text-sm font-semibold text-gray-700 mb-1">Message *</label>
+        <textarea name="message" rows="6" required class="w-full border border-gray-300 rounded px-4 py-2 focus:ring-2 focus:ring-brand-yellow"></textarea>
+      </div>
+      <!-- honeypot -->
+      <input type="text" name="_gotcha" class="hidden" tabindex="-1" autocomplete="off" />
+      <button type="submit" class="btn-primary">Send Message</button>
+    </form>
+  </section>
+</Base>

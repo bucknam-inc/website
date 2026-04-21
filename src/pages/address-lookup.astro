@@ -1,0 +1,17 @@
+---
+import Base from '../layouts/Base.astro';
+
+const EMBED_URL = 'https://arcg.is/0ev5zu1';
+---
+<Base title="Address Lookup">
+  <section class="bg-brand-dark text-white py-6">
+    <div class="max-w-6xl mx-auto px-4">
+      <p class="text-brand-yellow uppercase tracking-widest text-xs font-bold mb-1">Tools</p>
+      <h1 class="text-white text-2xl md:text-3xl">GIS-Powered Address Lookup</h1>
+      <p class="text-gray-300 text-sm mt-1">Enter a street address to access GIS data about the location.</p>
+    </div>
+  </section>
+  <div class="w-full" style="height: calc(100vh - 9rem);">
+    <iframe src={EMBED_URL} class="w-full h-full border-0" title="Address Lookup" allowfullscreen></iframe>
+  </div>
+</Base>

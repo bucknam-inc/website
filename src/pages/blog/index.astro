@@ -1,0 +1,25 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+
+const posts = await getCollection('blog');
+---
+<Base title="Blog">
+  <div class="bg-brand-dark text-white py-16">
+    <div class="max-w-5xl mx-auto px-4">
+      <h1 class="text-white">Blog</h1>
+      <p class="text-gray-300 mt-2">Insights on pavement management, GIS, and infrastructure.</p>
+    </div>
+  </div>
+  <section class="max-w-5xl mx-auto px-4 py-12">
+    <div class="grid md:grid-cols-2 gap-8">
+      {posts.map((post) => (
+        <a href={`/blog/${post.data.slug}/`} class="block bg-white border-t-4 border-brand-yellow shadow hover:shadow-lg transition p-6 no-underline">
+          <h3 class="text-xl font-heading font-semibold text-brand-dark mb-2">{post.data.title}</h3>
+          <p class="text-sm text-gray-500">{post.data.author}</p>
+          <span class="text-brand-yellow text-sm mt-3 inline-block font-semibold">Read more →</span>
+        </a>
+      ))}
+    </div>
+  </section>
+</Base>

@@ -1,0 +1,45 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+
+const jobs = await getCollection('jobs');
+const renderedJobs = await Promise.all(
+  jobs
+    .filter((j) => j.data.openForApplications !== false)
+    .map(async (j) => ({ job: j, Content: (await render(j)).Content }))
+);
+---
+<Base title="Careers">
+  <section class="relative bg-brand-dark text-white overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-br from-black via-gray-900 to-gray-800"></div>
+    <div class="relative z-10 max-w-6xl mx-auto px-4 py-16 md:py-20">
+      <p class="text-brand-yellow uppercase tracking-widest text-sm font-bold mb-2">Careers</p>
+      <h1 class="text-white">Join the Bucknam team</h1>
+      <p class="text-gray-300 mt-4 max-w-2xl text-lg">
+        We're hiring for roles that support our pavement-management and GIS work across Southern California.
+        If you don't see a fit below, feel free to inquire about future opportunities through our <a href="/contact/" class="text-brand-yellow underline">contact page</a>.
+      </p>
+    </div>
+  </section>
+
+  <section class="max-w-4xl mx-auto px-4 py-12 space-y-10">
+    {renderedJobs.length === 0 && (
+      <p class="text-gray-600 text-center">
+        No open positions right now. You're welcome to submit a general inquiry through our
+        <a href="/contact/" class="text-yellow-700 underline font-semibold"> contact page</a>.
+      </p>
+    )}
+    {renderedJobs.map(({ job, Content }) => (
+      <article class="bg-white border-l-4 border-brand-yellow rounded-r shadow-sm hover:shadow-md transition overflow-hidden">
+        <div class="p-8">
+          <h2 class="font-heading text-2xl md:text-3xl text-brand-dark mb-4">{job.data.title}</h2>
+          <div class="page-prose"><Content /></div>
+          <div class="mt-8 pt-6 border-t border-gray-200 flex flex-wrap items-center gap-4">
+            <a href={`/contact/?reason=Job+application+-+${encodeURIComponent(job.data.title)}`} class="btn-primary no-underline">Apply for this position</a>
+            <span class="text-sm text-gray-500">or submit a general interest through the <a href="/contact/" class="text-yellow-700 underline">contact form</a></span>
+          </div>
+        </div>
+      </article>
+    ))}
+  </section>
+</Base>

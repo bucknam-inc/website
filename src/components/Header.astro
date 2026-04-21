@@ -1,0 +1,75 @@
+---
+const nav = [
+  { label: 'Home', href: '/' },
+  { label: 'About', href: '/about-us/' },
+  { label: 'Pavement Mgmt', href: '/pavement-management/' },
+  { label: 'GIS Services', href: '/gis-services/' },
+  { label: 'ROW Inventory', href: '/row-inventory/' },
+  { label: 'MyRoads', href: '/myroads-application/' },
+  { label: 'Address Lookup', href: '/address-lookup/' },
+  { label: 'Service Map', href: '/service-map/' },
+  { label: 'Blog', href: '/blog/' },
+  { label: 'Jobs', href: '/jobs/' },
+  { label: 'Contact', href: '/contact/' },
+];
+
+// Normalise trailing-slash + root-path differences, then flag the active nav item.
+const pathname = Astro.url.pathname.replace(/\/+$/, '') || '/';
+const isActive = (href: string) => {
+  const target = href.replace(/\/+$/, '') || '/';
+  if (target === '/') return pathname === '/';
+  // Nested routes (e.g. /blog/some-post/) count as active for /blog/
+  return pathname === target || pathname.startsWith(target + '/');
+};
+---
+<header class="bg-brand-dark text-white sticky top-0 z-50 shadow-md">
+  <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+    <a href="/" class="flex items-center gap-3 no-underline">
+      <img src="/Logo_street_35px.png" alt="Bucknam Infrastructure" class="h-9 w-auto" />
+      <span class="font-heading text-xl font-bold text-white tracking-wide hidden sm:inline">
+        BUCKNAM <span class="text-brand-yellow">INFRASTRUCTURE</span>
+      </span>
+    </a>
+    <nav class="hidden lg:block">
+      <ul class="flex items-center gap-5 text-sm font-semibold uppercase tracking-wide">
+        {nav.map((item) => (
+          <li>
+            <a
+              href={item.href}
+              aria-current={isActive(item.href) ? 'page' : undefined}
+              class:list={[
+                'no-underline transition',
+                isActive(item.href) ? 'text-brand-yellow' : 'text-white hover:text-brand-yellow',
+              ]}
+            >
+              {item.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+    <button id="menuToggle" class="lg:hidden text-white text-2xl" aria-label="Menu">☰</button>
+  </div>
+  <nav id="mobileNav" class="lg:hidden hidden bg-brand-dark border-t border-gray-800">
+    <ul class="px-4 py-3 space-y-2 text-sm font-semibold uppercase">
+      {nav.map((item) => (
+        <li>
+          <a
+            href={item.href}
+            aria-current={isActive(item.href) ? 'page' : undefined}
+            class:list={[
+              'block py-2 no-underline',
+              isActive(item.href) ? 'text-brand-yellow' : 'text-white hover:text-brand-yellow',
+            ]}
+          >{item.label}</a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+</header>
+
+<script>
+  const btn = document.getElementById('menuToggle');
+  const nav = document.getElementById('mobileNav');
+  btn?.addEventListener('click', () => nav?.classList.toggle('hidden'));
+</script>
