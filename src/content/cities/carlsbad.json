@@ -1,7 +1,9 @@
 {
   "state": "CA",
   "isCustomer": false,
-  "surveyYears": [],
+  "surveyYears": [
+    2026
+  ],
   "name": "Carlsbad",
   "county": "San Diego",
   "placeGeoId": "0611194"
