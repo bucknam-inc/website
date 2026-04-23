@@ -3,6 +3,6 @@
   "state": "CA",
   "county": "Orange",
   "placeGeoId": "0625380",
-  "isCustomer": false,
+  "isCustomer": true,
   "surveyYears": []
 }
