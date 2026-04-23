@@ -1,6 +1,6 @@
 {
   "state": "CA",
-  "isCustomer": false,
+  "isCustomer": true,
   "surveyYears": [
     2026
   ],
