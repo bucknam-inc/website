@@ -3,6 +3,6 @@
   "state": "CA",
   "county": "Riverside",
   "placeGeoId": "0639486",
-  "isCustomer": true,
+  "isCustomer": false,
   "surveyYears": []
 }

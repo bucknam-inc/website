@@ -3,6 +3,6 @@
   "state": "CA",
   "county": "San Bernardino",
   "placeGeoId": "0660466",
-  "isCustomer": true,
+  "isCustomer": false,
   "surveyYears": []
 }
