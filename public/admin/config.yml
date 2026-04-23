@@ -33,6 +33,7 @@ collections:
     fields:
       - { label: "Title",       name: "title", widget: "string" }
       - { label: "URL slug",    name: "slug",  widget: "string" }
+      - { label: "Header image", name: "hero", widget: "image", required: false, media_library: { config: { multiple: false } }, hint: "Background photo for the dark hero band at the top of the page. Leave blank to use the gradient-only style." }
       - { label: "Body",        name: "body",  widget: "markdown" }
 
   - name: "blog"

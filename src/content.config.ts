@@ -6,6 +6,7 @@ const pages = defineCollection({
   schema: z.object({
     title: z.string(),
     slug: z.string(),
+    hero: z.string().optional(),
     sourceNode: z.coerce.string().optional(),
   }),
 });

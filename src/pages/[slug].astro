@@ -77,10 +77,16 @@ const META: Record<string, {
   },
 };
 
-const meta = META[page.data.slug] ?? {
+const defaults = META[page.data.slug] ?? {
   hero: '/images/PMP_Sample.jpg',
   kicker: 'Services',
   highlights: [],
+};
+// CMS-editable hero overrides the default. An empty string means "explicitly no photo"
+// (gradient-only hero, used by MyRoads) — treat only undefined as "fall back".
+const meta = {
+  ...defaults,
+  hero: page.data.hero !== undefined ? page.data.hero : defaults.hero,
 };
 ---
 <Base title={page.data.title}>
