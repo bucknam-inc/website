@@ -37,8 +37,22 @@ jobs:
           role-to-assume: ${{ env.ROLE_ARN }}
           aws-region: ${{ env.AWS_REGION }}
 
-      - name: Sync to S3
-        run: aws s3 sync dist/ s3://${{ env.BUCKET }}/ --delete
+      # Two-pass sync:
+      # 1. Upload hashed assets first with a year-long immutable cache. These paths
+      #    only appear in /_astro/ and are safe to pin forever (Astro rewrites the
+      #    filename when the content changes).
+      # 2. Upload everything else (HTML, plain /data/, /images/, /admin/) with a
+      #    no-cache header so browsers always revalidate — fixes the "CMS change
+      #    landed on the server but my browser is still showing old data" problem.
+      - name: Sync hashed assets (long cache)
+        run: |
+          aws s3 sync dist/_astro/ s3://${{ env.BUCKET }}/_astro/ \
+            --cache-control "public, max-age=31536000, immutable"
+      - name: Sync everything else (no cache)
+        run: |
+          aws s3 sync dist/ s3://${{ env.BUCKET }}/ --delete \
+            --cache-control "public, max-age=0, must-revalidate" \
+            --exclude "_astro/*"
 
       - name: Invalidate CloudFront
         run: |
