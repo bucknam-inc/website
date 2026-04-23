@@ -6,8 +6,30 @@
   <title>Bucknam — Content Manager</title>
   <link rel="icon" type="image/png" href="/Logo_street_35px.png" />
   <link href="/admin/config.yml" type="text/yaml" rel="cms-config-url" />
+  <style>
+    /* Colored left border on Cities list cards, matching the Service Map legend */
+    a[data-survey="yes"] { box-shadow: inset 4px 0 0 #3b82f6 !important; }
+    a[data-survey="no"]  { box-shadow: inset 4px 0 0 #d1d5db !important; }
+  </style>
 </head>
 <body>
   <script src="https://unpkg.com/decap-cms@^3.6.0/dist/decap-cms.js"></script>
+  <script>
+    /* Tag each Cities list card with data-survey based on its summary text.
+       The styles above use that attribute to render a coloured left bar. */
+    (function () {
+      function tag() {
+        document
+          .querySelectorAll('a[href*="#/collections/cities/entries/"]')
+          .forEach((card) => {
+            const txt = (card.textContent || '').toLowerCase();
+            if (/surveying this year:\s*true/.test(txt)) card.setAttribute('data-survey', 'yes');
+            else if (/surveying this year:\s*false/.test(txt)) card.setAttribute('data-survey', 'no');
+          });
+      }
+      new MutationObserver(tag).observe(document.body, { childList: true, subtree: true });
+      tag();
+    })();
+  </script>
 </body>
 </html>
