@@ -69,7 +69,7 @@ collections:
     extension: "json"
     format: "json"
     identifier_field: "name"
-    summary: "{{name}} ({{county}}) — customer: {{isCustomer}}, surveys: {{surveyYears}}"
+    summary: "{{name}} ({{county}}) — customer: {{isCustomer}}"
     fields:
       - { label: "City / place name", name: "name",        widget: "string", hint: "Must exactly match the name in the US Census TIGER places dataset, e.g. 'Laguna Hills'." }
       - { label: "State",             name: "state",       widget: "hidden",  default: "CA" }
@@ -77,25 +77,4 @@ collections:
         name: "county"
         widget: "select"
         options: ["Los Angeles", "Orange", "San Bernardino", "Riverside", "San Diego"]
-      - { label: "Place GEOID",       name: "placeGeoId",  widget: "string", required: false, hint: "7-digit Census TIGER GEOID. Optional — if blank, the map joins by name." }
       - { label: "Is current customer (BLUE on map)", name: "isCustomer", widget: "boolean", default: false }
-      - label: "Surveying fiscal years (GREEN on map when current)"
-        name: "surveyYears"
-        widget: "list"
-        default: []
-        field:
-          label: "Fiscal year"
-          name: "year"
-          widget: "number"
-          value_type: "int"
-          min: 2020
-          max: 2050
-          hint: "e.g. 2026 = FY26 = Jul 2025 – Jun 2026"
-      - label: "Custom boundary (optional)"
-        name: "customGeoJson"
-        widget: "object"
-        required: false
-        collapsed: true
-        hint: "For HOAs or special districts NOT in the TIGER cities dataset. Paste a GeoJSON Feature or FeatureCollection."
-        fields:
-          - { label: "GeoJSON (paste)", name: "geojson", widget: "text", required: false }
