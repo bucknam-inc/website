@@ -69,6 +69,7 @@ collections:
     extension: "json"
     format: "json"
     identifier_field: "name"
+    sortable_fields: ["name", "county"]
     summary: "{{name}} ({{county}}) — surveying this year: {{isCustomer}}"
     fields:
       - { label: "City / place name", name: "name",        widget: "string", hint: "Must exactly match the name in the US Census TIGER places dataset, e.g. 'Laguna Hills'." }

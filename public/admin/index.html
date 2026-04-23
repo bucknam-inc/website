@@ -117,6 +117,26 @@
         card.appendChild(label);
       }
 
+      function nameOf(card) {
+        const txt = (card.textContent || '').replace(/\s+/g, ' ').trim();
+        // summary is "{name} ({county}) — ..." — strip from " (" onward
+        return txt.split(/\s+\(/)[0].toLowerCase();
+      }
+
+      let lastOrder = '';
+      function sortCards(cards) {
+        if (cards.length < 2) return;
+        const parent = cards[0].parentElement;
+        if (!parent) return;
+        // Only reorder siblings within the same parent
+        const sorted = Array.from(cards).filter(c => c.parentElement === parent);
+        sorted.sort((a, b) => nameOf(a).localeCompare(nameOf(b)));
+        const newOrder = sorted.map(c => c.getAttribute('href')).join('|');
+        if (newOrder === lastOrder) return; // already sorted, avoid re-append loop
+        lastOrder = newOrder;
+        sorted.forEach(c => parent.appendChild(c));
+      }
+
       let logged = false;
       function tag() {
         const cards = document.querySelectorAll('a[href*="/collections/cities/entries/"]');
@@ -132,6 +152,7 @@
           else if (hasPhrase) card.setAttribute('data-survey', 'no');
           if (card.getAttribute('data-survey')) addToggle(card);
         });
+        sortCards(cards);
       }
       new MutationObserver(tag).observe(document.body, { childList: true, subtree: true });
       tag();
