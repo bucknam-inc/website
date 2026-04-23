@@ -69,7 +69,7 @@ collections:
     extension: "json"
     format: "json"
     identifier_field: "name"
-    summary: "{{name}} ({{county}}) — customer: {{isCustomer}}"
+    summary: "{{name}} ({{county}}) — surveying this year: {{isCustomer}}"
     fields:
       - { label: "City / place name", name: "name",        widget: "string", hint: "Must exactly match the name in the US Census TIGER places dataset, e.g. 'Laguna Hills'." }
       - { label: "State",             name: "state",       widget: "hidden",  default: "CA" }
@@ -77,4 +77,4 @@ collections:
         name: "county"
         widget: "select"
         options: ["Los Angeles", "Orange", "San Bernardino", "Riverside", "San Diego"]
-      - { label: "Is current customer (BLUE on map)", name: "isCustomer", widget: "boolean", default: false }
+      - { label: "Survey this year (BLUE on map)", name: "isCustomer", widget: "boolean", default: false }
