@@ -3,5 +3,6 @@
   "isCustomer": true,
   "surveyYears": [],
   "name": "Carlsbad",
-  "county": "San Diego"
+  "county": "San Diego",
+  "placeGeoId": "0611194"
 }
