@@ -9,7 +9,7 @@
   <style>
     /* Colored left border on Cities list cards, matching the Service Map legend */
     a[data-survey="yes"] { box-shadow: inset 4px 0 0 #3b82f6 !important; }
-    a[data-survey="no"]  { box-shadow: inset 4px 0 0 #d1d5db !important; }
+    a[data-survey="no"]  { box-shadow: inset 4px 0 0 #22c55e !important; }
   </style>
 </head>
 <body>
@@ -18,14 +18,23 @@
     /* Tag each Cities list card with data-survey based on its summary text.
        The styles above use that attribute to render a coloured left bar. */
     (function () {
+      let logged = false;
       function tag() {
-        document
-          .querySelectorAll('a[href*="#/collections/cities/entries/"]')
-          .forEach((card) => {
-            const txt = (card.textContent || '').toLowerCase();
-            if (/surveying this year:\s*true/.test(txt)) card.setAttribute('data-survey', 'yes');
-            else if (/surveying this year:\s*false/.test(txt)) card.setAttribute('data-survey', 'no');
-          });
+        const cards = document.querySelectorAll('a[href*="/collections/cities/entries/"]');
+        if (!logged && cards.length > 0) {
+          logged = true;
+          console.log('[bucknam] found', cards.length, 'cities cards; sample text:', cards[0].textContent);
+        }
+        cards.forEach((card) => {
+          const txt = (card.textContent || '').toLowerCase();
+          // Decap may render the isCustomer boolean as "true"/"false" OR just omit
+          // the value when falsy. Match either explicit truthy words or a trailing
+          // "this year:" with nothing after (the falsy case).
+          const isYes = /surveying this year:\s*(true|yes|1)\b/.test(txt);
+          const hasPhrase = /surveying this year:/.test(txt);
+          if (isYes) card.setAttribute('data-survey', 'yes');
+          else if (hasPhrase) card.setAttribute('data-survey', 'no');
+        });
       }
       new MutationObserver(tag).observe(document.body, { childList: true, subtree: true });
       tag();
