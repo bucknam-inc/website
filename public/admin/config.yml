@@ -77,4 +77,4 @@ collections:
         name: "county"
         widget: "select"
         options: ["Los Angeles", "Orange", "San Bernardino", "Riverside", "San Diego"]
-      - { label: "Survey this year (GREEN on map)", name: "isCustomer", widget: "boolean", default: false }
+      - { label: "Survey this year", name: "isCustomer", widget: "boolean", default: false }

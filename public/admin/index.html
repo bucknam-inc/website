@@ -11,14 +11,112 @@
     /* Matches the service map: customer default = blue; surveying this year = green. */
     a[data-survey="yes"] { box-shadow: inset 4px 0 0 #22c55e !important; } /* checked → green */
     a[data-survey="no"]  { box-shadow: inset 4px 0 0 #3b82f6 !important; } /* unchecked → blue */
+
+    /* Inline survey-this-year toggle on each city card */
+    .bucknam-survey-toggle {
+      position: absolute; right: 14px; top: 50%; transform: translateY(-50%);
+      display: flex; align-items: center; gap: 6px;
+      font-size: 12px; font-weight: 600; color: #374151;
+      background: #fff; padding: 4px 8px; border: 1px solid #d1d5db; border-radius: 4px;
+      cursor: pointer; user-select: none; z-index: 10;
+    }
+    .bucknam-survey-toggle input { cursor: pointer; }
+    .bucknam-survey-toggle.saving { opacity: 0.5; pointer-events: none; }
+    .bucknam-survey-toggle.error { background: #fee2e2; border-color: #dc2626; color: #991b1b; }
+    a[data-survey] { position: relative; }
   </style>
 </head>
 <body>
   <script src="https://unpkg.com/decap-cms@^3.6.0/dist/decap-cms.js"></script>
   <script>
-    /* Tag each Cities list card with data-survey based on its summary text.
-       The styles above use that attribute to render a coloured left bar. */
+    /* Tag each Cities list card with data-survey + add an inline toggle that
+       commits the flip directly to GitHub via the OAuth token Decap already has.
+       One toggle click = one GitHub commit. Page reloads on success so Decap
+       re-fetches fresh state. */
     (function () {
+      const REPO = 'bucknam-inc/website';
+      const BRANCH = 'main';
+
+      function getToken() {
+        for (const key of ['decap-cms-user', 'netlify-cms-user']) {
+          try {
+            const val = JSON.parse(localStorage.getItem(key) || 'null');
+            if (val && val.token) return val.token;
+          } catch (e) { /* ignore */ }
+        }
+        return null;
+      }
+
+      async function commitToggle(slug, newValue) {
+        const token = getToken();
+        if (!token) throw new Error('Not authenticated with GitHub');
+        const path = 'src/content/cities/' + slug + '.json';
+        const api = 'https://api.github.com/repos/' + REPO + '/contents/' + encodeURIComponent(path) + '?ref=' + BRANCH;
+        const getResp = await fetch(api, { headers: { Authorization: 'token ' + token, Accept: 'application/vnd.github+json' } });
+        if (!getResp.ok) throw new Error('GET ' + path + ' → ' + getResp.status);
+        const file = await getResp.json();
+        const current = JSON.parse(atob(file.content.replace(/\n/g, '')));
+        current.isCustomer = newValue;
+        const newContent = JSON.stringify(current, null, 2) + '\n';
+        const putResp = await fetch('https://api.github.com/repos/' + REPO + '/contents/' + encodeURIComponent(path), {
+          method: 'PUT',
+          headers: { Authorization: 'token ' + token, 'Content-Type': 'application/json', Accept: 'application/vnd.github+json' },
+          body: JSON.stringify({
+            message: 'CMS: ' + (current.name || slug) + ' — survey this year = ' + newValue,
+            content: btoa(unescape(encodeURIComponent(newContent))),
+            sha: file.sha,
+            branch: BRANCH,
+          }),
+        });
+        if (!putResp.ok) throw new Error('PUT ' + path + ' → ' + putResp.status);
+      }
+
+      function extractSlug(card) {
+        const href = card.getAttribute('href') || '';
+        const m = href.match(/\/collections\/cities\/entries\/([^/?#]+)/);
+        return m ? decodeURIComponent(m[1]) : null;
+      }
+
+      function addToggle(card) {
+        if (card.querySelector('.bucknam-survey-toggle')) return;
+        const slug = extractSlug(card);
+        if (!slug) return;
+        const isChecked = card.getAttribute('data-survey') === 'yes';
+        const label = document.createElement('label');
+        label.className = 'bucknam-survey-toggle';
+        const input = document.createElement('input');
+        input.type = 'checkbox';
+        input.checked = isChecked;
+        const text = document.createElement('span');
+        text.textContent = 'Survey this year';
+        label.appendChild(input);
+        label.appendChild(text);
+
+        // Swallow clicks so they don't open the card editor.
+        ['click', 'mousedown'].forEach((ev) => {
+          label.addEventListener(ev, (e) => e.stopPropagation());
+        });
+
+        input.addEventListener('change', async (e) => {
+          e.stopPropagation();
+          label.classList.add('saving');
+          label.classList.remove('error');
+          try {
+            await commitToggle(slug, input.checked);
+            // Reload so Decap re-fetches. Short delay lets GitHub's content API settle.
+            setTimeout(() => location.reload(), 600);
+          } catch (err) {
+            console.error('[bucknam] toggle failed', err);
+            input.checked = !input.checked;
+            label.classList.remove('saving');
+            label.classList.add('error');
+            text.textContent = 'Save failed';
+          }
+        });
+
+        card.appendChild(label);
+      }
+
       let logged = false;
       function tag() {
         const cards = document.querySelectorAll('a[href*="/collections/cities/entries/"]');
@@ -28,13 +126,11 @@
         }
         cards.forEach((card) => {
           const txt = (card.textContent || '').toLowerCase();
-          // Decap may render the isCustomer boolean as "true"/"false" OR just omit
-          // the value when falsy. Match either explicit truthy words or a trailing
-          // "this year:" with nothing after (the falsy case).
           const isYes = /surveying this year:\s*(true|yes|1)\b/.test(txt);
           const hasPhrase = /surveying this year:/.test(txt);
           if (isYes) card.setAttribute('data-survey', 'yes');
           else if (hasPhrase) card.setAttribute('data-survey', 'no');
+          if (card.getAttribute('data-survey')) addToggle(card);
         });
       }
       new MutationObserver(tag).observe(document.body, { childList: true, subtree: true });
