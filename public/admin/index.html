@@ -101,13 +101,19 @@
           e.stopPropagation();
           label.classList.add('saving');
           label.classList.remove('error');
+          // Optimistically repaint the left bar immediately. The .pending-save
+          // class tells the MutationObserver not to overwrite the new state
+          // based on the still-stale summary text.
+          card.classList.add('pending-save');
+          card.setAttribute('data-survey', input.checked ? 'yes' : 'no');
           try {
             await commitToggle(slug, input.checked);
-            // Reload so Decap re-fetches. Short delay lets GitHub's content API settle.
             setTimeout(() => location.reload(), 600);
           } catch (err) {
             console.error('[bucknam] toggle failed', err);
             input.checked = !input.checked;
+            card.setAttribute('data-survey', input.checked ? 'yes' : 'no');
+            card.classList.remove('pending-save');
             label.classList.remove('saving');
             label.classList.add('error');
             text.textContent = 'Save failed';
@@ -145,11 +151,15 @@
           console.log('[bucknam] found', cards.length, 'cities cards; sample text:', cards[0].textContent);
         }
         cards.forEach((card) => {
-          const txt = (card.textContent || '').toLowerCase();
-          const isYes = /surveying this year:\s*(true|yes|1)\b/.test(txt);
-          const hasPhrase = /surveying this year:/.test(txt);
-          if (isYes) card.setAttribute('data-survey', 'yes');
-          else if (hasPhrase) card.setAttribute('data-survey', 'no');
+          // Skip cards mid-save — their optimistic data-survey is the source of truth
+          // until the page reloads with fresh data.
+          if (!card.classList.contains('pending-save')) {
+            const txt = (card.textContent || '').toLowerCase();
+            const isYes = /surveying this year:\s*(true|yes|1)\b/.test(txt);
+            const hasPhrase = /surveying this year:/.test(txt);
+            if (isYes) card.setAttribute('data-survey', 'yes');
+            else if (hasPhrase) card.setAttribute('data-survey', 'no');
+          }
           if (card.getAttribute('data-survey')) addToggle(card);
         });
         sortCards(cards);
