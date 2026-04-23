@@ -9,15 +9,14 @@ import * as L from 'https://esm.sh/leaflet@1.9.4';
 const MAP_CENTER = [33.95, -117.4];
 const MAP_ZOOM = 8;
 
+// Every city in the CMS list is a customer. Customers default to blue;
+// the "Survey this year" toggle turns them green. Non-customers stay hidden.
 const styleFor = (match) => {
   if (!match) return { color: '#888', weight: 1, fillOpacity: 0, opacity: 0 };
-  if (match.isCurrentSurvey) {
+  if (match.isCustomer) {
     return { color: '#15803d', weight: 2, fillColor: '#22c55e', fillOpacity: 0.55 };
   }
-  if (match.isCustomer) {
-    return { color: '#1d4ed8', weight: 2, fillColor: '#3b82f6', fillOpacity: 0.45 };
-  }
-  return { color: '#999', weight: 1, fillColor: '#bbb', fillOpacity: 0.05 };
+  return { color: '#1d4ed8', weight: 2, fillColor: '#3b82f6', fillOpacity: 0.45 };
 };
 
 async function run() {
@@ -73,7 +72,7 @@ async function run() {
       const name = feature.properties.NAME || feature.properties.name;
       const match = byGeoId.get(geoid) || byName.get((name || '').toLowerCase().trim());
       const status = match
-        ? (match.isCurrentSurvey ? `Surveying FY${fy}` : (match.isCustomer ? 'Customer' : ''))
+        ? (match.isCustomer ? `Surveying FY${fy}` : 'Customer')
         : '';
       const popup = `<strong>${name}</strong><br/><span style="color:#666">${feature.properties.county || match?.county || ''}</span>${status ? `<br/><span style="color:#059669;font-weight:600">${status}</span>` : ''}`;
       layer.bindPopup(popup);
