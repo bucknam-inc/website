@@ -50,15 +50,22 @@
       async function commitToggle(slug, newValue) {
         const token = getToken();
         if (!token) throw new Error('Not authenticated with GitHub');
+        // Don't encode slashes — GitHub's Contents API wants literal path separators.
         const path = 'src/content/cities/' + slug + '.json';
-        const api = 'https://api.github.com/repos/' + REPO + '/contents/' + encodeURIComponent(path) + '?ref=' + BRANCH;
-        const getResp = await fetch(api, { headers: { Authorization: 'token ' + token, Accept: 'application/vnd.github+json' } });
-        if (!getResp.ok) throw new Error('GET ' + path + ' → ' + getResp.status);
+        const apiBase = 'https://api.github.com/repos/' + REPO + '/contents/' + path;
+        const getResp = await fetch(apiBase + '?ref=' + BRANCH, {
+          headers: { Authorization: 'token ' + token, Accept: 'application/vnd.github+json' },
+          cache: 'no-store',
+        });
+        if (!getResp.ok) {
+          const body = await getResp.text().catch(() => '');
+          throw new Error('GET ' + path + ' → ' + getResp.status + ' ' + body.slice(0, 200));
+        }
         const file = await getResp.json();
-        const current = JSON.parse(atob(file.content.replace(/\n/g, '')));
+        const current = JSON.parse(atob(file.content.replace(/\s/g, '')));
         current.isCustomer = newValue;
         const newContent = JSON.stringify(current, null, 2) + '\n';
-        const putResp = await fetch('https://api.github.com/repos/' + REPO + '/contents/' + encodeURIComponent(path), {
+        const putResp = await fetch(apiBase, {
           method: 'PUT',
           headers: { Authorization: 'token ' + token, 'Content-Type': 'application/json', Accept: 'application/vnd.github+json' },
           body: JSON.stringify({
@@ -68,7 +75,10 @@
             branch: BRANCH,
           }),
         });
-        if (!putResp.ok) throw new Error('PUT ' + path + ' → ' + putResp.status);
+        if (!putResp.ok) {
+          const body = await putResp.text().catch(() => '');
+          throw new Error('PUT ' + path + ' → ' + putResp.status + ' ' + body.slice(0, 200));
+        }
       }
 
       function extractSlug(card) {
@@ -116,7 +126,7 @@
             card.classList.remove('pending-save');
             label.classList.remove('saving');
             label.classList.add('error');
-            text.textContent = 'Save failed';
+            text.textContent = 'Save failed — see console';
           }
         });
 
@@ -159,6 +169,17 @@
             const hasPhrase = /surveying this year:/.test(txt);
             if (isYes) card.setAttribute('data-survey', 'yes');
             else if (hasPhrase) card.setAttribute('data-survey', 'no');
+            // Hide the "— surveying this year: X" tail from the visible summary.
+            // We only need it to initialise state; once we've parsed it, strip it.
+            if (hasPhrase) {
+              const walker = document.createTreeWalker(card, NodeFilter.SHOW_TEXT);
+              let node;
+              while ((node = walker.nextNode())) {
+                if (/surveying this year/i.test(node.textContent)) {
+                  node.textContent = node.textContent.replace(/\s*[—–-]\s*surveying this year:.*$/i, '');
+                }
+              }
+            }
           }
           if (card.getAttribute('data-survey')) addToggle(card);
         });
