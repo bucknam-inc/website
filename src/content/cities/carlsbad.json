@@ -1,6 +1,6 @@
 {
   "state": "CA",
-  "isCustomer": true,
+  "isCustomer": false,
   "surveyYears": [],
   "name": "Carlsbad",
   "county": "San Diego",
