@@ -8,8 +8,9 @@
   <link href="/admin/config.yml" type="text/yaml" rel="cms-config-url" />
   <style>
     /* Colored left border on Cities list cards, matching the Service Map legend */
-    a[data-survey="yes"] { box-shadow: inset 4px 0 0 #22c55e !important; }
-    a[data-survey="no"]  { box-shadow: inset 4px 0 0 #3b82f6 !important; }
+    /* Matches the service map: customer default = blue; surveying this year = green. */
+    a[data-survey="yes"] { box-shadow: inset 4px 0 0 #22c55e !important; } /* checked → green */
+    a[data-survey="no"]  { box-shadow: inset 4px 0 0 #3b82f6 !important; } /* unchecked → blue */
   </style>
 </head>
 <body>
