@@ -157,80 +157,8 @@
   ],
   "Ontario": [
     {
-      "year": 2003,
-      "pci": 63.8,
-      "sections": 861,
-      "coverage": 0.27,
-      "start": "2003-04-08",
-      "end": "2003-06-30"
-    },
-    {
-      "year": 2004,
-      "pci": 53.7,
-      "sections": 1886,
-      "coverage": 0.58,
-      "start": "2003-07-01",
-      "end": "2004-05-01"
-    },
-    {
-      "year": 2006,
-      "pci": 63.3,
-      "sections": 1073,
-      "coverage": 0.33,
-      "start": "2005-07-01",
-      "end": "2006-06-29"
-    },
-    {
-      "year": 2007,
-      "pci": 64.1,
-      "sections": 951,
-      "coverage": 0.29,
-      "start": "2006-07-01",
-      "end": "2007-05-01"
-    },
-    {
-      "year": 2008,
-      "pci": 61.5,
-      "sections": 905,
-      "coverage": 0.28,
-      "start": "2007-07-01",
-      "end": "2008-06-01"
-    },
-    {
-      "year": 2010,
-      "pci": 68.2,
-      "sections": 1154,
-      "coverage": 0.36,
-      "start": "2009-07-01",
-      "end": "2010-01-01"
-    },
-    {
-      "year": 2012,
-      "pci": 71.8,
-      "sections": 1629,
-      "coverage": 0.5,
-      "start": "2011-07-01",
-      "end": "2012-05-21"
-    },
-    {
-      "year": 2013,
-      "pci": 76.5,
-      "sections": 879,
-      "coverage": 0.27,
-      "start": "2012-10-15",
-      "end": "2013-01-01"
-    },
-    {
-      "year": 2014,
-      "pci": 80.9,
-      "sections": 952,
-      "coverage": 0.29,
-      "start": "2013-07-01",
-      "end": "2014-02-19"
-    },
-    {
       "year": 2015,
-      "pci": 77.2,
+      "pci": 74.7,
       "sections": 774,
       "coverage": 0.24,
       "start": "2014-11-20",
@@ -238,7 +166,7 @@
     },
     {
       "year": 2016,
-      "pci": 85.1,
+      "pci": 76.6,
       "sections": 1212,
       "coverage": 0.38,
       "start": "2015-09-01",
@@ -246,7 +174,7 @@
     },
     {
       "year": 2017,
-      "pci": 86.4,
+      "pci": 79.2,
       "sections": 895,
       "coverage": 0.28,
       "start": "2016-07-16",
@@ -254,7 +182,7 @@
     },
     {
       "year": 2018,
-      "pci": 82.9,
+      "pci": 82.0,
       "sections": 1064,
       "coverage": 0.33,
       "start": "2017-11-16",
@@ -262,7 +190,7 @@
     },
     {
       "year": 2019,
-      "pci": 81.7,
+      "pci": 82.7,
       "sections": 1003,
       "coverage": 0.31,
       "start": "2018-10-01",
@@ -270,7 +198,7 @@
     },
     {
       "year": 2020,
-      "pci": 82.5,
+      "pci": 82.8,
       "sections": 1194,
       "coverage": 0.37,
       "start": "2019-08-01",
@@ -278,7 +206,7 @@
     },
     {
       "year": 2021,
-      "pci": 81.1,
+      "pci": 81.3,
       "sections": 926,
       "coverage": 0.29,
       "start": "2020-10-08",
@@ -286,7 +214,7 @@
     },
     {
       "year": 2022,
-      "pci": 81.1,
+      "pci": 80.8,
       "sections": 1300,
       "coverage": 0.4,
       "start": "2021-08-01",
@@ -294,7 +222,7 @@
     },
     {
       "year": 2023,
-      "pci": 78.8,
+      "pci": 80.1,
       "sections": 1036,
       "coverage": 0.32,
       "start": "2022-11-15",
@@ -302,7 +230,7 @@
     },
     {
       "year": 2024,
-      "pci": 78.9,
+      "pci": 80.1,
       "sections": 1087,
       "coverage": 0.34,
       "start": "2023-08-01",
@@ -315,20 +243,20 @@
       "coverage": 0.33,
       "start": "2024-08-01",
       "end": "2025-01-09"
+    },
+    {
+      "year": 2026,
+      "pci": 79.6,
+      "sections": 0,
+      "coverage": 0,
+      "start": "",
+      "end": ""
     }
   ],
   "Fountain Valley": [
     {
-      "year": 2002,
-      "pci": 76.0,
-      "sections": 553,
-      "coverage": 0.5,
-      "start": "2002-01-01",
-      "end": "2002-05-25"
-    },
-    {
       "year": 2004,
-      "pci": 59.1,
+      "pci": 70.1,
       "sections": 268,
       "coverage": 0.24,
       "start": "2004-04-02",
@@ -336,23 +264,15 @@
     },
     {
       "year": 2006,
-      "pci": 77.5,
+      "pci": 70.3,
       "sections": 531,
       "coverage": 0.48,
       "start": "2005-10-18",
       "end": "2006-06-02"
     },
     {
-      "year": 2007,
-      "pci": 69.3,
-      "sections": 194,
-      "coverage": 0.18,
-      "start": "2006-07-10",
-      "end": "2007-01-01"
-    },
-    {
       "year": 2008,
-      "pci": 73.6,
+      "pci": 72.3,
       "sections": 646,
       "coverage": 0.58,
       "start": "2007-11-01",
@@ -360,7 +280,7 @@
     },
     {
       "year": 2010,
-      "pci": 81.4,
+      "pci": 75.2,
       "sections": 570,
       "coverage": 0.52,
       "start": "2009-08-01",
@@ -368,7 +288,7 @@
     },
     {
       "year": 2012,
-      "pci": 83.6,
+      "pci": 80.8,
       "sections": 598,
       "coverage": 0.54,
       "start": "2011-07-01",
@@ -376,87 +296,47 @@
     },
     {
       "year": 2014,
-      "pci": 83.1,
+      "pci": 81.4,
       "sections": 447,
       "coverage": 0.4,
       "start": "2013-09-10",
       "end": "2014-02-17"
     },
     {
-      "year": 2015,
-      "pci": 90.2,
-      "sections": 302,
-      "coverage": 0.27,
-      "start": "2015-02-23",
-      "end": "2015-06-01"
-    },
-    {
       "year": 2016,
-      "pci": 82.0,
+      "pci": 85.1,
       "sections": 519,
       "coverage": 0.47,
       "start": "2015-09-28",
       "end": "2016-06-01"
     },
     {
-      "year": 2017,
-      "pci": 85.9,
-      "sections": 294,
-      "coverage": 0.27,
-      "start": "2017-04-07",
-      "end": "2017-06-01"
-    },
-    {
       "year": 2018,
-      "pci": 85.2,
+      "pci": 86.1,
       "sections": 407,
       "coverage": 0.37,
       "start": "2018-04-10",
       "end": "2018-06-01"
     },
     {
-      "year": 2019,
-      "pci": 88.2,
-      "sections": 304,
-      "coverage": 0.27,
-      "start": "2018-08-31",
-      "end": "2019-06-01"
-    },
-    {
       "year": 2020,
-      "pci": 84.5,
+      "pci": 86.1,
       "sections": 384,
       "coverage": 0.35,
       "start": "2019-08-01",
       "end": "2020-06-01"
     },
     {
-      "year": 2021,
-      "pci": 83.7,
-      "sections": 309,
-      "coverage": 0.28,
-      "start": "2020-07-13",
-      "end": "2021-04-27"
-    },
-    {
       "year": 2022,
-      "pci": 84.2,
+      "pci": 85.7,
       "sections": 425,
       "coverage": 0.38,
       "start": "2021-12-01",
       "end": "2022-04-30"
     },
     {
-      "year": 2023,
-      "pci": 87.6,
-      "sections": 327,
-      "coverage": 0.3,
-      "start": "2022-09-01",
-      "end": "2023-06-01"
-    },
-    {
       "year": 2024,
-      "pci": 84.4,
+      "pci": 84.7,
       "sections": 365,
       "coverage": 0.33,
       "start": "2024-01-25",
@@ -464,7 +344,7 @@
     },
     {
       "year": 2026,
-      "pci": 77.5,
+      "pci": 83.5,
       "sections": 421,
       "coverage": 0.38,
       "start": "2025-08-02",

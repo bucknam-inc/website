@@ -151,9 +151,7 @@ const yearTicks = (() => {
       {/* Data points (colored by band) */}
       {data.map((d) => (
         <g>
-          <circle cx={xScale(d.year)} cy={yScale(d.pci)} r="6" fill={bandColor(d.pci)} stroke="#1a1a1a" stroke-width="1.5">
-            <title>{`${d.year}: PCI ${d.pci} (${d.sections} sections, ${Math.round(d.coverage * 100)}% of network)`}</title>
-          </circle>
+          <circle cx={xScale(d.year)} cy={yScale(d.pci)} r="6" fill={bandColor(d.pci)} stroke="#1a1a1a" stroke-width="1.5" />
           <text
             x={xScale(d.year)}
             y={yScale(d.pci) - 12}
