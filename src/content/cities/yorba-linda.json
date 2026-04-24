@@ -1,6 +1,6 @@
 {
   "state": "CA",
-  "isCustomer": false,
+  "isCustomer": true,
   "name": "Yorba Linda",
   "county": "Orange"
 }
