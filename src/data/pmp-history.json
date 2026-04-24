@@ -473,16 +473,8 @@
   ],
   "San Juan Capistrano": [
     {
-      "year": 2010,
-      "pci": 77.8,
-      "sections": 359,
-      "coverage": 0.85,
-      "start": "2009-07-21",
-      "end": "2009-08-08"
-    },
-    {
       "year": 2011,
-      "pci": 76.2,
+      "pci": 75.2,
       "sections": 53,
       "coverage": 0.13,
       "start": "2011-03-10",
@@ -490,7 +482,7 @@
     },
     {
       "year": 2013,
-      "pci": 76.5,
+      "pci": 74.0,
       "sections": 99,
       "coverage": 0.24,
       "start": "2013-04-24",
@@ -498,7 +490,7 @@
     },
     {
       "year": 2015,
-      "pci": 72.2,
+      "pci": 71.2,
       "sections": 403,
       "coverage": 0.96,
       "start": "2015-04-09",
@@ -506,7 +498,7 @@
     },
     {
       "year": 2017,
-      "pci": 74.0,
+      "pci": 71.1,
       "sections": 135,
       "coverage": 0.32,
       "start": "2016-09-09",
@@ -514,7 +506,7 @@
     },
     {
       "year": 2019,
-      "pci": 70.4,
+      "pci": 72.7,
       "sections": 99,
       "coverage": 0.24,
       "start": "2019-05-15",
@@ -530,7 +522,7 @@
     },
     {
       "year": 2023,
-      "pci": 74.8,
+      "pci": 69.1,
       "sections": 109,
       "coverage": 0.26,
       "start": "2022-09-01",
@@ -538,11 +530,19 @@
     },
     {
       "year": 2025,
-      "pci": 78.3,
+      "pci": 86.9,
       "sections": 110,
       "coverage": 0.26,
       "start": "2025-04-01",
       "end": "2025-05-06"
+    },
+    {
+      "year": 2026,
+      "pci": 88.5,
+      "sections": 0,
+      "coverage": 0,
+      "start": "",
+      "end": ""
     }
   ]
 }
