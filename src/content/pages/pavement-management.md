@@ -39,3 +39,15 @@ Bucknam builds on our knowledge and understanding of your PMP goals. Mr. Bucknam
     <p class="text-gray-600 text-sm mt-3">Every PMP integrates with your agency's GIS — so pavement condition, work history, and CIP projections are available as first-class map layers.</p>
   </div>
 </div>
+
+<div class="not-prose my-16 relative md:left-1/2 md:-translate-x-1/2 md:min-w-full md:w-[80vw] md:max-w-[80vw]">
+  <p class="text-xs font-bold text-brand-yellow uppercase tracking-widest mb-1">Embeddable Map Demo</p>
+  <h3 class="font-heading text-2xl text-brand-dark mb-3">Public-Facing Web App</h3>
+  <p class="text-gray-600 mb-6">An interactive map with dynamic filtering that can easily be embedded in City websites.</p>
+  <iframe
+    src="/maps/city-of-vista-pavement-condition-2026.html"
+    title="City of Vista Pavement Condition 2026 — interactive map"
+    loading="lazy"
+    class="w-full h-[600px] rounded-lg shadow-md border-0"
+  ></iframe>
+</div>
