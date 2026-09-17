@@ -1,6 +1,6 @@
 {
   "state": "CA",
-  "isCustomer": false,
+  "isCustomer": true,
   "name": "Santa Fe Springs",
   "county": "Los Angeles"
 }
