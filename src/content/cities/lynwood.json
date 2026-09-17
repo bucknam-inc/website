@@ -3,6 +3,6 @@
   "state": "CA",
   "county": "Los Angeles",
   "placeGeoId": "0644574",
-  "isCustomer": false,
+  "isCustomer": true,
   "surveyYears": []
 }
