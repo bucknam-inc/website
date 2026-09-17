@@ -20,11 +20,23 @@ const styleFor = (match) => {
 };
 
 async function run() {
-  const map = L.map('service-map').setView(MAP_CENTER, MAP_ZOOM);
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-    attribution: '&copy; OpenStreetMap &copy; CARTO',
-    subdomains: 'abcd',
-    maxZoom: 18,
+  const map = L.map('service-map', { maxZoom: 16 }).setView(MAP_CENTER, MAP_ZOOM);
+  // Esri World Light Gray Canvas — keyless. CARTO's free basemaps started
+  // stamping "API KEY REQUIRED" on every tile (Sept 2026), so we moved off them.
+  // Base = land/water/roads; Reference = place labels, drawn above the polygons
+  // so city names stay readable over the coloured fills.
+  const esri = 'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas';
+  const esriAttribution = 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ';
+  L.tileLayer(`${esri}/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}`, {
+    attribution: esriAttribution,
+    maxZoom: 16,
+  }).addTo(map);
+  map.createPane('labels');
+  map.getPane('labels').style.zIndex = 450;
+  map.getPane('labels').style.pointerEvents = 'none';
+  L.tileLayer(`${esri}/World_Light_Gray_Reference/MapServer/tile/{z}/{y}/{x}`, {
+    pane: 'labels',
+    maxZoom: 16,
   }).addTo(map);
 
   const cities = window.__BUCKNAM_CITIES__ || [];
